@@ -11,6 +11,206 @@ body{
   color:#1b1b1b;
   overflow-x:hidden;
 }
+#page-loader{
+  position:fixed;
+  inset:0;
+  background:var(--beige);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  z-index:9999;
+  transition:opacity .5s ease, visibility .5s ease;
+}
+
+#page-loader.hide{
+  opacity:0;
+  visibility:hidden;
+}
+
+/* SKY */
+.sky{
+  position:relative;
+  width:200px;
+  height:120px;
+  overflow:hidden;
+}
+
+/* PLANE */
+.plane{
+  position:absolute;
+  left:50%;
+  top:50%;
+  font-size:42px;
+  color:var(--blue);
+  transform:translate(-50%, -50%);
+  animation:float 2.5s ease-in-out infinite;
+}
+
+/* Floating up-down */
+@keyframes float{
+  0%,100%{
+    transform:translate(-50%, -55%);
+  }
+  50%{
+    transform:translate(-50%, -45%);
+  }
+}
+
+/* CLOUDS */
+.cloud{
+  position:absolute;
+  top:20%;
+  width:50px;
+  height:16px;
+  background:#fff;
+  border-radius:50px;
+  opacity:.8;
+  animation:cloud-move 6s linear infinite;
+}
+
+.cloud::before,
+.cloud::after{
+  content:'';
+  position:absolute;
+  background:#fff;
+  width:22px;
+  height:22px;
+  border-radius:50%;
+  top:-10px;
+}
+
+.cloud::before{
+  left:8px;
+}
+
+.cloud::after{
+  right:8px;
+}
+
+.cloud-1{
+  top:30%;
+  animation-duration:7s;
+}
+
+.cloud-2{
+  top:55%;
+  animation-duration:9s;
+}
+
+@keyframes cloud-move{
+  from{
+    transform:translateX(220px);
+  }
+  to{
+    transform:translateX(-120px);
+  }
+}
+
+/* RUNWAY */
+.runway{
+  width:120px;
+  height:4px;
+  background:#ccc;
+  margin-top:12px;
+  opacity:0;
+}
+
+/* LANDING STATE */
+.land .plane{
+  animation:landing .8s ease forwards;
+}
+
+.land .runway{
+  opacity:1;
+}
+
+@keyframes landing{
+  from{
+    transform:translate(-50%, -50%);
+  }
+  to{
+    transform:translate(-50%, 10px);
+  }
+}
+
+#page-loader p{
+  margin-top:16px;
+  color:#555;
+  font-weight:500;
+}
+
+/* SHARED */
+.loader-plane,
+.loader-bus{
+  display:none;
+  flex-direction:column;
+  align-items:center;
+}
+
+/* BUS */
+.road{
+  position:relative;
+  width:240px;
+  height:80px;
+  overflow:hidden;
+}
+
+.bus{
+  position:absolute;
+  left:50%;
+  top:50%;
+  transform:translate(-50%, -50%);
+  font-size:44px;
+  color:var(--blue);
+  animation:bus-move 1.8s ease-in-out infinite;
+}
+
+/* BUS FLOAT */
+@keyframes bus-move{
+  0%,100%{
+    transform:translate(-50%, -52%);
+  }
+  50%{
+    transform:translate(-50%, -48%);
+  }
+}
+
+/* WIND LINES */
+.wind{
+  position:absolute;
+  right:-60px;
+  top:50%;
+  width:40px;
+  height:3px;
+  background:#ccc;
+  opacity:.7;
+  animation:wind 1s linear infinite;
+}
+
+.w1{ top:30%; animation-delay:0s; }
+.w2{ top:50%; animation-delay:.3s; }
+.w3{ top:70%; animation-delay:.6s; }
+
+@keyframes wind{
+  from{
+    transform:translateX(0);
+    opacity:.8;
+  }
+  to{
+    transform:translateX(-300px);
+    opacity:0;
+  }
+}
+
+/* BUS STOP */
+.bus-stop .bus{
+  animation:none;
+}
+
+.bus-stop .wind{
+  display:none;
+}
 
 /* NAVBAR */
 .navbar{
