@@ -371,6 +371,13 @@ section.reveal.active {
   flex: 1.7;
 }
 
+@media (max-width: 768px) {
+  .image-tabs:hover .tab,
+  .image-tabs .tab:hover {
+    flex: 1; /* semua tab tetap sama ukuran */
+  }
+}
+
 
 
 /* ===================== */
@@ -450,7 +457,18 @@ section.reveal.active {
 
 @media (max-width: 768px){
   .parallax{
-    height:70vh;
+    height:70vh; /* tetap sesuai keinginanmu */
+  }
+
+  .parallax-bg{
+    position: absolute; /* tetap absolute */
+    left: 50%;
+    top: 50%;
+    width: 100%;      /* reset width jadi normal */
+    height: 100%;     /* reset height */
+    transform: translate(-50%, -50%) !important; /* stop semua transform */
+    background-position: center;
+    background-size: cover;
   }
 }
 
@@ -525,3 +543,10 @@ footer{
   }
 }
 
+@media (hover: none) {
+  .tab,
+  .card,
+  .btn-fun {
+    transform: none !important;
+  }
+}

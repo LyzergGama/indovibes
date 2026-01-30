@@ -5,6 +5,9 @@ const parallaxBg = document.querySelector('.parallax-bg');
 let currentScroll = 0;
 let targetScroll = 0;
 
+// Detect mobile
+const isMobile = window.innerWidth < 768;
+
 // Disable browser scroll restoration
 if ('scrollRestoration' in history) {
   history.scrollRestoration = 'manual';
@@ -26,72 +29,63 @@ window.addEventListener('load', () => {
     bus.style.display = 'flex';
   }
 
-  // Plane landing
   if(isPlane){
-    setTimeout(() => {
-      plane.classList.add('land');
-    }, 3000);
+    setTimeout(() => plane.classList.add('land'), 3000);
+  } else {
+    setTimeout(() => bus.classList.add('bus-stop'), 3000);
   }
 
-  // Bus stop
-  if(!isPlane){
-    setTimeout(() => {
-      bus.classList.add('bus-stop');
-    }, 3000);
-  }
-
-  // Hide loader
-  setTimeout(() => {
-    loader.classList.add('hide');
-  }, 4000);
+  setTimeout(() => loader.classList.add('hide'), 4000);
 });
 
-
-// Smooth scroll-based parallax
+// Scroll listener for navbar
 window.addEventListener('scroll', () => {
   targetScroll = window.scrollY;
   navbar.classList.toggle('scrolled', targetScroll > 50);
 });
 
+// Animate function (parallax)
 function animate(){
   currentScroll += (targetScroll - currentScroll) * 0.08;
 
-  if(heroBg){
-    heroBg.style.transform =
-      `translateY(${currentScroll * 0.35}px) scale(1.25)`;
-  }
+  if(!isMobile){ // ❌ skip semua efek di mobile
+    if(heroBg){
+      heroBg.style.transform =
+        `translateY(${currentScroll * 0.35}px) scale(1.25)`;
+    }
 
     if(parallaxBg){
-    parallaxBg.style.transform =
+      parallaxBg.style.transform =
         `translate(-50%, calc(-50% + ${currentScroll * 0.15}px))`;
     }
+  }
 
   requestAnimationFrame(animate);
 }
-animate();
 
-const isMobile = window.innerWidth < 768;
 
-if(parallaxBg){
-  const speed = isMobile ? 0.05 : 0.15;
+// Initial parallax for desktop
+if(parallaxBg && !isMobile){
+  const speed = 0.15;
   parallaxBg.style.transform =
     `translate(-50%, calc(-50% + ${currentScroll * speed}px))`;
 }
 
+// Mouse parallax (desktop only)
+if(!isMobile){
+  document.addEventListener('mousemove', (e) => {
+    if(!heroBg) return;
 
-/* Mouse parallax */
-document.addEventListener('mousemove', (e) => {
-  if(!heroBg) return;
+    const x = (window.innerWidth / 2 - e.clientX) * 0.015;
+    const y = (window.innerHeight / 2 - e.clientY) * 0.015;
+    const depth = heroBg.dataset.depth || 0.1;
 
-  const x = (window.innerWidth / 2 - e.clientX) * 0.015;
-  const y = (window.innerHeight / 2 - e.clientY) * 0.015;
-  const depth = heroBg.dataset.depth || 0.1;
+    heroBg.style.transform =
+      `translate(${x * depth}px, ${y * depth}px) scale(1.25)`;
+  });
+}
 
-  heroBg.style.transform =
-    `translate(${x * depth}px, ${y * depth}px) scale(1.25)`;
-});
-
-/* Scroll reveal */
+// Scroll reveal (desktop + mobile, optional)
 const reveals = document.querySelectorAll('.reveal');
 const observer = new IntersectionObserver(entries => {
   entries.forEach(entry => {
