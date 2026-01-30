@@ -47,7 +47,6 @@ window.addEventListener('load', () => {
 });
 
 
-
 // Smooth scroll-based parallax
 window.addEventListener('scroll', () => {
   targetScroll = window.scrollY;
@@ -62,14 +61,23 @@ function animate(){
       `translateY(${currentScroll * 0.35}px) scale(1.25)`;
   }
 
-  if(parallaxBg){
+    if(parallaxBg){
     parallaxBg.style.transform =
-      `translateY(${currentScroll * 0.2}px) scale(1.3)`;
-  }
+        `translate(-50%, calc(-50% + ${currentScroll * 0.15}px))`;
+    }
 
   requestAnimationFrame(animate);
 }
 animate();
+
+const isMobile = window.innerWidth < 768;
+
+if(parallaxBg){
+  const speed = isMobile ? 0.05 : 0.15;
+  parallaxBg.style.transform =
+    `translate(-50%, calc(-50% + ${currentScroll * speed}px))`;
+}
+
 
 /* Mouse parallax */
 document.addEventListener('mousemove', (e) => {
